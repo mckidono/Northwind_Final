@@ -202,6 +202,16 @@ namespace NorthwindConsole
                             db.DeleteProduct(product);
                             System.Console.WriteLine("The delete was successful");
                         }
+                        else if (choice == "2"){
+                            System.Console.WriteLine("1) Add new records to the Categories table");
+                            System.Console.WriteLine("2) Edit a specified record from the Categories table");
+                            System.Console.WriteLine("3) Display choices");
+                            System.Console.WriteLine("4) Display a specific Category and its related active product data (CategoryName, ProductName)");
+                            System.Console.WriteLine("5) Delete a specified existing record from the Categories table");
+                        }
+                        else{
+                            System.Console.WriteLine("invalid choice");
+                        }
                         
                     }   while (choice.ToLower() != "q");
                 }

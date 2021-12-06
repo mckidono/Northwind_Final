@@ -95,6 +95,10 @@ namespace NorthwindConsole.Model
             var list = new List<Products>(Products.Where(p => p.Discontinued == true));
             return list;
         }
+        public List<Categories> GetCategories()
+        {
+            return Categories.ToList();
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -363,6 +367,7 @@ namespace NorthwindConsole.Model
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Territories_Region");
             });
+            
 
             OnModelCreatingPartial(modelBuilder);
         }
