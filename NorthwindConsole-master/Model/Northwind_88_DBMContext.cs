@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,21 @@ namespace NorthwindConsole.Model
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
 
+
+        public void AddNewProduct(Products prod)
+        {
+            Products.Add(prod);
+            SaveChanges();
+        }
+        public List<Products> GetProduct()
+        {
+            return Products.ToList();
+        }
+        public List<Products> GetDiscontinued()
+        {
+            var list = new List<Products>(Products.Where(p => p.Discontinued == true));
+            return list;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
