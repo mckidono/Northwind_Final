@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using System.Collections;
 
 namespace NorthwindConsole.Model
 {
@@ -40,6 +41,20 @@ namespace NorthwindConsole.Model
         {
             var prod = new Products() {ProductId = prodId};
             return prod;
+        }
+        public IEnumerable QueryCategorys(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Categories GetCategoryById(int result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCategory(Categories prod)
+        {
+            throw new NotImplementedException();
         }
         public List<Products> findProducts(string query)
         {
