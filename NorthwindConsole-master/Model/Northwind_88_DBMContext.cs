@@ -11,7 +11,7 @@ namespace NorthwindConsole.Model
         {
         }
 
-        public Northwind_DotNetDb_JSGContext(DbContextOptions<Northwind_DotNetDb_JSGContext> options)
+        public Northwind_88_DBMContext(DbContextOptions<Northwind_DotNetDb_JSGContext> options)
             : base(options)
         {
         }
