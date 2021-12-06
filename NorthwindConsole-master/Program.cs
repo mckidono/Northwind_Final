@@ -202,6 +202,9 @@ namespace NorthwindConsole
                             db.DeleteProduct(product);
                             System.Console.WriteLine("The delete was successful");
                         }
+
+
+                        ///This is where the cluter of category starts
                         else if (choice == "2"){
                             System.Console.WriteLine("1) Add new records to the Categories table");
                             System.Console.WriteLine("2) Edit a specified record from the Categories table");
@@ -240,19 +243,19 @@ namespace NorthwindConsole
                             System.Console.Write("Disconinued: ");
                             Boolean.TryParse(Console.ReadLine(), out bool discontinued);
 
-                            var product = new Products{
-                                ProductName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
+                            var category = new Categories{
+                                CategoryName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
                                 UnitPrice = price, UnitsInStock = (short) units,
                                 UnitsOnOrder = (short) order, ReorderLevel = (short) level,
                                 Discontinued = discontinued
                             };
 
-                            db.AddNewProduct(product);
+                            db.AddNewCategory(category);
                         }
                         else if (choice == "2")
                         {
-                            System.Console.Write("Enter Product ID: ");
-                            int productID = Console.Read();
+                            System.Console.Write("Enter Category ID: ");
+                            int categoryID = Console.Read();
 
                             System.Console.Write("Name: ");
                             string name =Console.ReadLine();
@@ -280,70 +283,70 @@ namespace NorthwindConsole
 
                             System.Console.Write("Disconinued: ");
                             Boolean.TryParse(Console.ReadLine(), out bool discontinued);
-                                var product = new Products
+                                var category = new Categories
                                 {
-                                    ProductName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
+                                    CategoryName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
                                 UnitPrice = price, UnitsInStock = (short) units,
                                 UnitsOnOrder = (short) order, ReorderLevel = (short) level,
                                 Discontinued = discontinued
                                 };
 
-                            Products findProduct = db.GetProductById(productID);
+                            Categories findCategory = db.GetCategoryById(categoryID);
 
-                            findProduct.ToString();
+                            findCategory.ToString();
 
-                                findProduct.ProductName = name;
-                                findProduct.SupplierId = suppID;
-                                findProduct.CategoryId = CateID;
-                                findProduct.QuantityPerUnit = quantity;
-                                findProduct.UnitPrice = price;
-                                findProduct.UnitsInStock = (short) units;
-                                findProduct.UnitsOnOrder = (short) order;
-                                findProduct.ReorderLevel = (short) level;
-                                findProduct.Discontinued = discontinued;
+                                findCategory.CategoryName = name;
+                                findCategory.SupplierId = suppID;
+                                findCategory.CategoryId = CateID;
+                                findCategory.QuantityPerUnit = quantity;
+                                findCategory.UnitPrice = price;
+                                findCategory.UnitsInStock = (short) units;
+                                findCategory.UnitsOnOrder = (short) order;
+                                findCategory.ReorderLevel = (short) level;
+                                findCategory.Discontinued = discontinued;
 
-                            db.EditProduct(findProduct);
+                            db.EditCategory(findCategory);
 
-                            Products output = db.GetProductById(productID);
+                            Categories output = db.GetCategoryById(categoryID);
                             output.ToString();
                         }
                         else if (choice == "3")
                         {
-                            System.Console.WriteLine("1) Display all Products through product name\n2) Display all Products through all Fields\n3) Display all disconinued Products\n4) Display Active Products\n5) Display a specific Product");
+                            System.Console.WriteLine("1) Display all Categories through category name\n2) Display all Categories through all Fields\n3) Display all disconinued Categories\n4) Display Active Categories\n5) Display a specific Category");
                             string DisplayChoice = Console.ReadLine();
 
                             if (DisplayChoice == "1"){
-                                foreach(var product in db.GetProduct()){
-                                        Console.WriteLine(product.ProductName);
+                                foreach(var category in db.GetCategory()){
+                                        Console.WriteLine(category.CategoryName);
                                 }
                             }
 
                             else if (DisplayChoice == "2"){
-                                foreach (var product in db.GetProduct())
+                                foreach (var category in db.GetCategory())
                                     {
-                                    if (product.Discontinued == true)
+                                    if (category.Discontinued == true)
                                         {
                                             Console.ForegroundColor = ConsoleColor.Red;
                                         }
-                                        Console.WriteLine(product.ToString());
+                                        Console.WriteLine(category.ToString());
                                 }
                             }
 
                             else if (DisplayChoice == "3"){
-                                foreach (var product in db.GetDiscontinued()){
-                                    System.Console.WriteLine(product.ProductName);
-                                    System.Console.WriteLine(product.Discontinued);
+                                foreach (var category in db.GetDiscontinued()){
+                                    System.Console.WriteLine(category.CategoryName);
+                                    System.Console.WriteLine(category.Discontinued);
                                 }
                             }
                             else if (DisplayChoice == "4"){
                                 
                             }
                             else if (DisplayChoice == "5"){
-                                System.Console.Write("Product ID: ");
+                                System.Console.Write("Category ID: ");
                                 int id = Console.Read();
-                                var showProduct = db.GetProductById(id);
+                                var showCategory = db.GetCategoryById(id);
 
-                                Console.WriteLine($"{showProduct.ToString()}");
+                                Console.WriteLine($"{showCategory.ToString()}");
                             }
                             else{
                                 logger.Warn("No display under choice");
@@ -355,22 +358,22 @@ namespace NorthwindConsole
                             Console.Write("Search: ");
                             string search = Console.ReadLine();
 
-                            var SearchedProducts = db.findProducts(search);
+                            var SearchedCategories = db.findCategories(search);
 
-                            System.Console.WriteLine($"Found {SearchedProducts.Count}");
+                            System.Console.WriteLine($"Found {SearchedCategories.Count}");
 
-                            foreach(var products in SearchedProducts){
-                                System.Console.WriteLine($"{products.ToString()}");
+                            foreach(var Categories in SearchedCategories){
+                                System.Console.WriteLine($"{Categories.ToString()}");
                             }
 
                             System.Console.WriteLine("Process Completed Successfully");
                         }
                         else if (choice == "5"){
-                            System.Console.Write("Product Id to Delete: ");
+                            System.Console.Write("Category Id to Delete: ");
                             int id = Console.Read();
 
-                            var product = db.GetProductById(id);
-                            db.DeleteProduct(product);
+                            var category = db.GetCategoryById(id);
+                            db.DeleteCategory(category);
                             System.Console.WriteLine("The delete was successful");
                         }
                         }
