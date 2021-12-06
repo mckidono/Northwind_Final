@@ -219,76 +219,29 @@ namespace NorthwindConsole
                             System.Console.Write("Name: ");
                             string name =Console.ReadLine();
 
-                            System.Console.Write("Supplyies ID: ");
-                            int suppID = Console.Read();
+                            System.Console.Write("Description: ");
+                            string Desc = Console.ReadLine();
 
-                            System.Console.Write("Category ID: ");
-                            int CateID = Console.Read();
-
-                            System.Console.Write("Quantity Per Unit: ");
-                            string quantity = Console.ReadLine();
-
-                            System.Console.Write("Price: ");
-                            decimal price = Console.Read();
-
-                            System.Console.Write("Units in Stock: ");
-                            int units = Console.Read();
-
-                            System.Console.Write("Units on Order: ");
-                            int order = Console.Read();
-
-                            System.Console.Write("Reorder Level: ");
-                            int level = Console.Read();
-
-                            System.Console.Write("Disconinued: ");
-                            Boolean.TryParse(Console.ReadLine(), out bool discontinued);
-
-                            var category = new Categories{
-                                CategoryName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
-                                UnitPrice = price, UnitsInStock = (short) units,
-                                UnitsOnOrder = (short) order, ReorderLevel = (short) level,
-                                Discontinued = discontinued
+                            var category = new Categories(){
+                                CategoryName = name, Description= Desc
                             };
 
-                            db.AddNewCategory(category);
+                            db.AddCategory(category);
                         }
                         else if (choice == "2")
                         {
                             System.Console.Write("Enter Category ID: ");
                             int categoryID = Console.Read();
 
-                            System.Console.Write("Name: ");
+                             System.Console.Write("Name: ");
                             string name =Console.ReadLine();
 
-                            System.Console.Write("Supplyies ID: ");
-                            int suppID = Console.Read();
+                            System.Console.Write("Description: ");
+                            string Desc = Console.ReadLine();
 
-                            System.Console.Write("Category ID: ");
-                            int CateID = Console.Read();
-
-                            System.Console.Write("Quantity Per Unit: ");
-                            string quantity = Console.ReadLine();
-
-                            System.Console.Write("Price: ");
-                            decimal price = Console.Read();
-
-                            System.Console.Write("Units in Stock: ");
-                            int units = Console.Read();
-
-                            System.Console.Write("Units on Order: ");
-                            int order = Console.Read();
-
-                            System.Console.Write("Reorder Level: ");
-                            int level = Console.Read();
-
-                            System.Console.Write("Disconinued: ");
-                            Boolean.TryParse(Console.ReadLine(), out bool discontinued);
                                 var category = new Categories
                                 {
-                                    CategoryName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
-                                UnitPrice = price, UnitsInStock = (short) units,
-                                UnitsOnOrder = (short) order, ReorderLevel = (short) level,
-                                Discontinued = discontinued
+                                    CategoryName = name, Description= Desc
                                 };
 
                             Categories findCategory = db.GetCategoryById(categoryID);
@@ -296,14 +249,8 @@ namespace NorthwindConsole
                             findCategory.ToString();
 
                                 findCategory.CategoryName = name;
-                                findCategory.SupplierId = suppID;
-                                findCategory.CategoryId = CateID;
-                                findCategory.QuantityPerUnit = quantity;
-                                findCategory.UnitPrice = price;
-                                findCategory.UnitsInStock = (short) units;
-                                findCategory.UnitsOnOrder = (short) order;
-                                findCategory.ReorderLevel = (short) level;
-                                findCategory.Discontinued = discontinued;
+                                findCategory.CategoryId = categoryID;
+                                findCategory.Description= Desc;
 
                             db.EditCategory(findCategory);
 
@@ -312,42 +259,44 @@ namespace NorthwindConsole
                         }
                         else if (choice == "3")
                         {
-                            System.Console.WriteLine("1) Display all Categories through category name\n2) Display all Categories through all Fields\n3) Display all disconinued Categories\n4) Display Active Categories\n5) Display a specific Category");
+                            Console.WriteLine("1) Display All Categories showing Category Name");
+                                Console.WriteLine("2) Display All Categories showing All Fields");
+                                Console.WriteLine("3) Display a Specific Category");
+                                Console.WriteLine("4) Display Categories + Related Product data");
+                                Console.WriteLine("5) Display Product Data for Category Id");
                             string DisplayChoice = Console.ReadLine();
 
                             if (DisplayChoice == "1"){
-                                foreach(var category in db.GetCategory()){
+                                foreach(var category in db.GetCategories()){
                                         Console.WriteLine(category.CategoryName);
                                 }
                             }
 
                             else if (DisplayChoice == "2"){
-                                foreach (var category in db.GetCategory())
+                                foreach (var cat in db.GetCategories())
                                     {
-                                    if (category.Discontinued == true)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                        }
-                                        Console.WriteLine(category.ToString());
-                                }
+                                        Console.Write(
+                                            $"Id: {cat.CategoryId} Name: {cat.CategoryName} Desc: {cat.Description}\n");
+                                    }
                             }
-
                             else if (DisplayChoice == "3"){
-                                foreach (var category in db.GetDiscontinued()){
-                                    System.Console.WriteLine(category.CategoryName);
-                                    System.Console.WriteLine(category.Discontinued);
-                                }
-                            }
-                            else if (DisplayChoice == "4"){
-                                
-                            }
-                            else if (DisplayChoice == "5"){
                                 System.Console.Write("Category ID: ");
                                 int id = Console.Read();
                                 var showCategory = db.GetCategoryById(id);
 
                                 Console.WriteLine($"{showCategory.ToString()}");
                             }
+                            else if (DisplayChoice == "4")
+                                {
+                                    db.GetOutputCategoryProductData();
+                                }
+                                else if (DisplayChoice == "5")
+                                {
+                                    Console.WriteLine("Product Data for Cat Id of: ");
+                                    Int32.TryParse(Console.ReadLine(), out int id);
+
+                                    db.GetCategoryProductNameByCatId(id);
+                                }
                             else{
                                 logger.Warn("No display under choice");
                                 Console.WriteLine("The display choice you entered was invalid");
@@ -358,12 +307,13 @@ namespace NorthwindConsole
                             Console.Write("Search: ");
                             string search = Console.ReadLine();
 
-                            var SearchedCategories = db.findCategories(search);
+                            var SearchedCategories = db.QueryCategories(search);
 
-                            System.Console.WriteLine($"Found {SearchedCategories.Count}");
+                            var qls = new List<Categories>();
 
-                            foreach(var Categories in SearchedCategories){
-                                System.Console.WriteLine($"{Categories.ToString()}");
+                            foreach (var Categories in SearchedCategories){
+                                qls.Add(Categories);
+                                System.Console.WriteLine($"{Categories.CategoryName}");
                             }
 
                             System.Console.WriteLine("Process Completed Successfully");

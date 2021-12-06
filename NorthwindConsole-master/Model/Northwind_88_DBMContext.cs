@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
-using System.Collections;
+using NLog;
+using NLog.Web;
+
 
 namespace NorthwindConsole.Model
 {
@@ -18,6 +22,9 @@ namespace NorthwindConsole.Model
             : base(options)
         {
         }
+
+        private static NLog.Logger logger = NLogBuilder.ConfigureNLog(Directory.GetCurrentDirectory() + "\\nlog.config")
+            .GetCurrentClassLogger();
 
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
@@ -35,6 +42,7 @@ namespace NorthwindConsole.Model
         {
             Products.Update(prod);
             SaveChanges();
+            logger.Info($"{prod.ToString()} editted");
         }
 
         public Products GetProductById(int prodId)
@@ -42,19 +50,115 @@ namespace NorthwindConsole.Model
             var prod = new Products() {ProductId = prodId};
             return prod;
         }
-        public IEnumerable QueryCategorys(string query)
+        public List<Categories> QueryCategories(string query)
         {
-            throw new NotImplementedException();
+            var foundCats = new List<Categories>();
+
+            List<Categories> allCats = Categories.ToList();
+            Int32.TryParse(query, out int catId);
+            Int32.TryParse(query, out int prodId);
+
+            foreach (Categories cat in allCats.Where(c => c.CategoryId == catId)) foundCats.Add(cat);
+            foreach (Categories cat in allCats.Where(c => c.CategoryName.Contains(query))) foundCats.Add(cat);
+            foreach (Categories cat in allCats.Where(c => c.Description.Contains(query))) foundCats.Add(cat);
+
+
+            return foundCats;
         }
 
-        public Categories GetCategoryById(int result)
+
+        public List<Categories> GetCategoryInListById(Categories cat)
         {
-            throw new NotImplementedException();
+            var list = new List<Categories>(Categories.Where(c => c.CategoryId == cat.CategoryId));
+            return list;
         }
 
-        public void DeleteCategory(Categories prod)
+        public Categories GetCategoryById(int cateId)
         {
-            throw new NotImplementedException();
+            var cat = new Categories() {CategoryId = cateId};
+            return cat;
+        }
+
+        public void DeleteCategory(Categories cat)
+        {
+            var pointer = cat;
+            Categories.Remove(cat);
+            logger.Info($"{cat.ToString()} deleted");
+            SaveChanges();
+        }
+
+        public void AddCategory(Categories cat)
+        {
+            Categories.Add(cat);
+            SaveChanges();
+            logger.Info($"{cat.ToString()} added");
+        }
+
+        public void EditCategory(Categories cat)
+        {
+             Categories.Update(cat);
+            SaveChanges();
+            logger.Info($"{cat.ToString()} editted");
+        }
+
+        public void GetOutputCategoryProductData()
+        {
+            var prods = new List<Products>();
+            //var cats = new List<Categories>();
+
+            prods = this.GetProduct();
+            var cats = this.GetCategories();
+
+            foreach (var cat in cats)
+            {
+
+                Console.WriteLine($"Cat Id: {cat.CategoryId} Cat Name: {cat.CategoryName} Cat Desc: {cat.Description}");
+
+                foreach (var prod in cat.Products)
+                {
+                    Console.WriteLine($"Product Data");
+                    Console.Write(prod.ToString() + "\n");
+                }
+
+            }
+        }
+
+        public void GetCategoryProductDataByCatId(int catId)
+        {
+            var cat = this.GetCategoryById(catId);
+
+            Console.WriteLine($"Product Data for: {cat.CategoryName}");
+
+            foreach (var prod in cat.Products)
+            {
+                Console.Write($"{prod.ToString()}\n");
+            }
+        }
+
+        public void GetCategoryProductNameByCatId(int catId)
+        {
+            var cats = this.GetCategories();
+
+            var prods = this.GetProduct();
+
+            foreach (var cat in cats)
+            {
+                if (cat.CategoryId == catId)
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"Products in {cat.CategoryName}\n");
+
+                    foreach (var prod in prods)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        if (prod.CategoryId == catId)
+                        {
+                            Console.WriteLine($"{prod.ProductName}");
+                        }
+                    }
+                }
+            }
+
         }
         public List<Products> findProducts(string query)
         {
@@ -85,21 +189,24 @@ namespace NorthwindConsole.Model
             return foundProds;
         }
 
-        public List<Products> GetProductListById(Products prod)
+        public List<Products> GetProductInListById(Products prod)
         {
             var list = new List<Products>(Products.Where(p => p.ProductId == prod.ProductId));
             return list;
         }
         public void DeleteProduct(Products prod)
         {
+            var Produ = prod;
             Products.Remove(prod);
             SaveChanges();
             Console.WriteLine("Delete successful");
+            logger.Info($"{Produ.ToString()} deleted");
         }
         public void AddNewProduct(Products prod)
         {
             Products.Add(prod);
             SaveChanges();
+            logger.Info($"{prod.ToString()} added");
         }
         public List<Products> GetProduct()
         {
