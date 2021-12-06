@@ -27,14 +27,11 @@ namespace NorthwindConsole
 
                     var db = new Northwind_88_DBMContext();
 
-                    do
-                    {
                         Console.WriteLine("1) Add new record to the Products table ");
                         Console.WriteLine("2) Edit a specified record from the Products table");
                         Console.WriteLine("3) Display all records in the Products table");                   
                         Console.WriteLine("4) Display a specific Product");
                         Console.WriteLine("5) Delete a Product");
-                        Console.WriteLine("\"q\" to quit");
                         choice = Console.ReadLine();
                         Console.Clear();
                         logger.Info($"Option {choice} selected");
@@ -154,13 +151,9 @@ namespace NorthwindConsole
                                         {
                                             Console.ForegroundColor = ConsoleColor.Red;
                                         }
-                                        else
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Cyan;
-                                        }
-
                                         Console.Write(prod.ToString() + "\n");
                                     }
+                                    Console.ForegroundColor = ConsoleColor.White;
                                 }
 
                             else if (DisplayChoice == "3") {
@@ -213,7 +206,7 @@ namespace NorthwindConsole
                                 db.DeleteProduct(prod);
                                 Console.WriteLine("Delete successful");
                             }
-                        
+                    }
 
 
                         ///This is where the cluter of category starts
@@ -225,9 +218,10 @@ namespace NorthwindConsole
                             System.Console.WriteLine("5) Delete a specified existing record from the Categories table");
 
                             choice = Console.ReadLine();
+                            var db = new Northwind_88_DBMContext();
 
                              if (choice == "1")
-                        {
+                            {
                             
                             
                             System.Console.Write("Name: ");
@@ -245,7 +239,7 @@ namespace NorthwindConsole
                         else if (choice == "2")
                         {
                             System.Console.Write("Enter Category ID: ");
-                            int categoryID = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int categoryID);
 
                              System.Console.Write("Name: ");
                             string name =Console.ReadLine();
@@ -343,10 +337,7 @@ namespace NorthwindConsole
                         }
                         else{
                             System.Console.WriteLine("invalid choice");
-                        }
-                        
-                    }   while (choice.ToLower() != "q");
-                }
+                        }  
             }
             catch (Exception ex)
             {

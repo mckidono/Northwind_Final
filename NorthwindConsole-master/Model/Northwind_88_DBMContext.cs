@@ -155,12 +155,12 @@ namespace NorthwindConsole.Model
             {
                 if (cat.CategoryId == catId)
                 {
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.Write($"Products in {cat.CategoryName}\n");
 
                     foreach (var prod in prods)
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        Console.ForegroundColor = ConsoleColor.White;
                         if (prod.CategoryId == catId)
                         {
                             Console.WriteLine($"{prod.ProductName}");
@@ -206,11 +206,10 @@ namespace NorthwindConsole.Model
         }
         public void DeleteProduct(Products prod)
         {
-            var Produ = prod;
+            var pointer = prod;
             Products.Remove(prod);
             SaveChanges();
-            Console.WriteLine("Delete successful");
-            logger.Info($"{Produ.ToString()} deleted");
+            logger.Info($"{pointer.ToString()} deleted");
         }
         public void AddNewProduct(Products prod)
         {
@@ -218,10 +217,11 @@ namespace NorthwindConsole.Model
             SaveChanges();
             logger.Info($"{prod.ToString()} added");
         }
-        public List<Products> GetProduct()
+         public List<Products> GetProduct()
         {
             return Products.ToList();
         }
+
         public List<Products> GetDiscontinued()
         {
             var list = new List<Products>(Products.Where(p => p.Discontinued == true));
