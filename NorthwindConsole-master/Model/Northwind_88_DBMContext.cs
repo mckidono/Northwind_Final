@@ -134,6 +134,16 @@ namespace NorthwindConsole.Model
                 Console.Write($"{prod.ToString()}\n");
             }
         }
+        public List<Products> GetDiscontinuedProds()
+        {
+            var list = new List<Products>(Products.Where(p => p.Discontinued == true));
+            return list;
+        }
+         public List<Products> GetActiveProds()
+        {
+            var list = new List<Products>(Products.Where(p => p.Discontinued == false));
+            return list;
+        }
 
         public void GetCategoryProductNameByCatId(int catId)
         {
