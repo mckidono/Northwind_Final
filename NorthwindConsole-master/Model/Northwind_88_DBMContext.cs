@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace NorthwindConsole.Model
 {
-    public partial class Northwind_DotNetDb_JSGContext : DbContext
+    public partial class Northwind_88_DBMContext : DbContext
     {
-        public Northwind_DotNetDb_JSGContext()
+        public Northwind_88_DBMContext()
         {
         }
 
-        public Northwind_88_DBMContext(DbContextOptions<Northwind_DotNetDb_JSGContext> options)
+        public Northwind_88_DBMContext(DbContextOptions<Northwind_88_DBMContext> options)
             : base(options)
         {
         }
