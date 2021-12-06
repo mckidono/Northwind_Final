@@ -31,7 +31,7 @@ namespace NorthwindConsole
                     logger.Info($"Option {choice} selected");
                     if (choice == "1")
                     {
-                        var db = new Northwind_DotNetDb_JSGContext();
+                        var db = new Northwind_88_DBMContext();
                         var query = db.Categories.OrderBy(p => p.CategoryName);
 
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -57,7 +57,7 @@ namespace NorthwindConsole
                         var isValid = Validator.TryValidateObject(category, context, results, true);
                         if (isValid)
                         {
-                            var db = new Northwind_DotNetDb_JSGContext();
+                            var db = new Northwind_88_DBMContext();
                             // check for unique name
                             if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
                             {
@@ -81,7 +81,7 @@ namespace NorthwindConsole
                     }
                     else if (choice == "3")
                     {
-                        var db = new Northwind_DotNetDb_JSGContext();
+                        var db = new Northwind_88_DBMContext();
                         var query = db.Categories.OrderBy(p => p.CategoryId);
 
                         Console.WriteLine("Select the category whose products you want to display:");
@@ -103,7 +103,7 @@ namespace NorthwindConsole
                     }
                     else if (choice == "4")
                     {
-                        var db = new Northwind_DotNetDb_JSGContext();
+                        var db = new Northwind_88_DBMContext();
                         var query = db.Categories.Include("Products").OrderBy(p => p.CategoryId);
                         foreach (var item in query)
                         {
