@@ -19,7 +19,7 @@ namespace NorthwindConsole
 
             try
             {
-                System.Console.WriteLine("would you like to enter \n1) Products \n2) Categories? ");
+                System.Console.WriteLine("would you like to enter \n1) Products \n2) Categories ");
                 string choice = Console.ReadLine();
 
 
@@ -43,34 +43,34 @@ namespace NorthwindConsole
                             
                             
                             System.Console.Write("Name: ");
-                            string name =Console.ReadLine();
+                            String name = Console.ReadLine();
 
-                            System.Console.Write("Supplyies ID: ");
-                            int suppID = Console.Read();
+                            System.Console.Write("Supplier ID: ");
+                            Int32.TryParse(Console.ReadLine(), out int suppID);
 
                             System.Console.Write("Category ID: ");
-                            int CateID = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int cateID);
 
                             System.Console.Write("Quantity Per Unit: ");
                             string quantity = Console.ReadLine();
 
                             System.Console.Write("Price: ");
-                            decimal price = Console.Read();
+                            Decimal.TryParse(Console.ReadLine(), out decimal price);
 
                             System.Console.Write("Units in Stock: ");
-                            int units = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int units);
 
                             System.Console.Write("Units on Order: ");
-                            int order = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int order);
 
                             System.Console.Write("Reorder Level: ");
-                            int level = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int level);
 
                             System.Console.Write("Disconinued: ");
                             Boolean.TryParse(Console.ReadLine(), out bool discontinued);
 
                             var product = new Products{
-                                ProductName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
+                                ProductName = name, SupplierId = suppID, CategoryId = cateID, QuantityPerUnit = quantity,
                                 UnitPrice = price, UnitsInStock = (short) units,
                                 UnitsOnOrder = (short) order, ReorderLevel = (short) level,
                                 Discontinued = discontinued
@@ -81,37 +81,37 @@ namespace NorthwindConsole
                         else if (choice == "2")
                         {
                             System.Console.Write("Enter Product ID: ");
-                            int productID = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int productID);
 
                             System.Console.Write("Name: ");
-                            string name =Console.ReadLine();
+                            String name = Console.ReadLine();
 
-                            System.Console.Write("Supplyies ID: ");
-                            int suppID = Console.Read();
+                            System.Console.Write("Supplier ID: ");
+                            Int32.TryParse(Console.ReadLine(), out int suppID);
 
                             System.Console.Write("Category ID: ");
-                            int CateID = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int cateID);
 
                             System.Console.Write("Quantity Per Unit: ");
                             string quantity = Console.ReadLine();
 
                             System.Console.Write("Price: ");
-                            decimal price = Console.Read();
+                            Decimal.TryParse(Console.ReadLine(), out decimal price);
 
                             System.Console.Write("Units in Stock: ");
-                            int units = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int units);
 
                             System.Console.Write("Units on Order: ");
-                            int order = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int order);
 
                             System.Console.Write("Reorder Level: ");
-                            int level = Console.Read();
+                            Int32.TryParse(Console.ReadLine(), out int level);
 
                             System.Console.Write("Disconinued: ");
                             Boolean.TryParse(Console.ReadLine(), out bool discontinued);
                                 var product = new Products
                                 {
-                                    ProductName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
+                                    ProductName = name, SupplierId = suppID, CategoryId = cateID, QuantityPerUnit = quantity,
                                 UnitPrice = price, UnitsInStock = (short) units,
                                 UnitsOnOrder = (short) order, ReorderLevel = (short) level,
                                 Discontinued = discontinued
@@ -123,7 +123,7 @@ namespace NorthwindConsole
 
                                 findProduct.ProductName = name;
                                 findProduct.SupplierId = suppID;
-                                findProduct.CategoryId = CateID;
+                                findProduct.CategoryId = cateID;
                                 findProduct.QuantityPerUnit = quantity;
                                 findProduct.UnitPrice = price;
                                 findProduct.UnitsInStock = (short) units;
