@@ -41,11 +41,45 @@ namespace NorthwindConsole.Model
             var prod = new Products() {ProductId = prodId};
             return prod;
         }
+        public List<Products> findProducts(string query)
+        {
+            var foundProds = new List<Products>();
+
+            var allProds = Products.ToList();
+            Int32.TryParse(query, out int prodId);
+            Int32.TryParse(query, out int suppId);
+            Int32.TryParse(query, out int catId);
+            Decimal.TryParse(query, out decimal unitPrice);
+            Int32.TryParse(query, out int unitStock);
+            Int32.TryParse(query, out int unitsOrder);
+            Int32.TryParse(query, out int reorder);
+            Boolean.TryParse(query, out bool distcontinued);
+
+            foreach (var prod in allProds.Where(p => p.ProductId == prodId)) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.ProductName.Contains(query))) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.CategoryId == catId)) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.SupplierId == suppId)) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.QuantityPerUnit.Contains(query))) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.UnitPrice == unitPrice)) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.UnitsInStock == unitStock)) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.UnitsOnOrder == unitsOrder)) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.ReorderLevel == reorder)) foundProds.Add(prod);
+            foreach (var prod in allProds.Where(p => p.Discontinued == distcontinued)) foundProds.Add(prod);
+
+
+            return foundProds;
+        }
 
         public List<Products> GetProductListById(Products prod)
         {
             var list = new List<Products>(Products.Where(p => p.ProductId == prod.ProductId));
             return list;
+        }
+        public void DeleteProduct(Products prod)
+        {
+            Products.Remove(prod);
+            SaveChanges();
+            Console.WriteLine("Delete successful");
         }
         public void AddNewProduct(Products prod)
         {

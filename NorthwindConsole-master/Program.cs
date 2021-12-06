@@ -33,6 +33,7 @@ namespace NorthwindConsole
                         Console.WriteLine("2) Edit a specified record from the Products table");
                         Console.WriteLine("3) Display all records in the Products table");                   
                         Console.WriteLine("4) Display a specific Product");
+                        Console.WriteLine("5) Delete a Product");
                         Console.WriteLine("\"q\" to quit");
                         choice = Console.ReadLine();
                         Console.Clear();
@@ -82,13 +83,53 @@ namespace NorthwindConsole
                             System.Console.Write("Enter Product ID: ");
                             int productID = Console.Read();
 
-                            System.Console.Write("Enter New Name: ");
-                            string newName = Console.ReadLine();
+                            System.Console.Write("Name: ");
+                            string name =Console.ReadLine();
+
+                            System.Console.Write("Supplyies ID: ");
+                            int suppID = Console.Read();
+
+                            System.Console.Write("Category ID: ");
+                            int CateID = Console.Read();
+
+                            System.Console.Write("Quantity Per Unit: ");
+                            string quantity = Console.ReadLine();
+
+                            System.Console.Write("Price: ");
+                            decimal price = Console.Read();
+
+                            System.Console.Write("Units in Stock: ");
+                            int units = Console.Read();
+
+                            System.Console.Write("Units on Order: ");
+                            int order = Console.Read();
+
+                            System.Console.Write("Reorder Level: ");
+                            int level = Console.Read();
+
+                            System.Console.Write("Disconinued: ");
+                            Boolean.TryParse(Console.ReadLine(), out bool discontinued);
+                                var product = new Products
+                                {
+                                    ProductName = name, SupplierId = suppID, CategoryId = CateID, QuantityPerUnit = quantity,
+                                UnitPrice = price, UnitsInStock = (short) units,
+                                UnitsOnOrder = (short) order, ReorderLevel = (short) level,
+                                Discontinued = discontinued
+                                };
 
                             Products findProduct = db.GetProductById(productID);
 
                             findProduct.ToString();
-                            findProduct.ProductName=newName;
+
+                                findProduct.ProductName = name;
+                                findProduct.SupplierId = suppID;
+                                findProduct.CategoryId = CateID;
+                                findProduct.QuantityPerUnit = quantity;
+                                findProduct.UnitPrice = price;
+                                findProduct.UnitsInStock = (short) units;
+                                findProduct.UnitsOnOrder = (short) order;
+                                findProduct.ReorderLevel = (short) level;
+                                findProduct.Discontinued = discontinued;
 
                             db.EditProduct(findProduct);
 
@@ -97,7 +138,7 @@ namespace NorthwindConsole
                         }
                         else if (choice == "3")
                         {
-                            System.Console.WriteLine("1) Display all Products through product name\n2) Display all Products through all Fields\n3) Display all disconinued Products\n4) Display Active Products");
+                            System.Console.WriteLine("1) Display all Products through product name\n2) Display all Products through all Fields\n3) Display all disconinued Products\n4) Display Active Products\n5) Display a specific Product");
                             string DisplayChoice = Console.ReadLine();
 
                             if (DisplayChoice == "1"){
@@ -126,12 +167,42 @@ namespace NorthwindConsole
                             else if (DisplayChoice == "4"){
                                 
                             }
+                            else if (DisplayChoice == "5"){
+                                System.Console.Write("Product ID: ");
+                                int id = Console.Read();
+                                var showProduct = db.GetProductById(id);
+
+                                Console.WriteLine($"{showProduct.ToString()}");
+                            }
                             else{
                                 logger.Warn("No display under choice");
                                 Console.WriteLine("The display choice you entered was invalid");
                             }
                         }
-                        Console.WriteLine();
+
+                        else if (choice == "4"){
+                            Console.Write("Search: ");
+                            string search = Console.ReadLine();
+
+                            var SearchedProducts = db.findProducts(search);
+
+                            System.Console.WriteLine($"Found {SearchedProducts.Count}");
+
+                            foreach(var products in SearchedProducts){
+                                System.Console.WriteLine($"{products.ToString()}");
+                            }
+
+                            System.Console.WriteLine("Process Completed Successfully");
+                        }
+                        else if (choice == "5"){
+                            System.Console.Write("Product Id to Delete: ");
+                            int id = Console.Read();
+
+                            var product = db.GetProductById(id);
+                            db.DeleteProduct(product);
+                            System.Console.WriteLine("The delete was successful");
+                        }
+                        
                     }   while (choice.ToLower() != "q");
                 }
             }
