@@ -24,7 +24,8 @@ namespace NorthwindConsole
                 {
                     Console.WriteLine("1) Display Categories");
                     Console.WriteLine("2) Add Category");
-                    Console.WriteLine("3) Display Category and related products");                    Console.WriteLine("4) Display all Categories and their related products");
+                    Console.WriteLine("3) Display Category and related products");                   
+                    Console.WriteLine("4) Display all Categories and their related products");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
