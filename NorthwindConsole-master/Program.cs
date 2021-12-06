@@ -135,7 +135,7 @@ namespace NorthwindConsole
                         }
                         else if (choice == "3")
                         {
-                            System.Console.WriteLine("1) Display all Products through product name\n2) Display all Products through all Fields\n3) Display all disconinued Products\n4) Display Active Products\n5) Display a specific Product");
+                            System.Console.WriteLine("1) Display all Products through product name\n2) Display all Products through all Fields\n3) Display all disconinued Products\n4) Display Active Products");
                             string DisplayChoice = Console.ReadLine();
 
                             if (DisplayChoice == "1"){
@@ -145,13 +145,14 @@ namespace NorthwindConsole
                             }
 
                             else if (DisplayChoice == "2"){
-                                    foreach (var prod in db.GetProduct())
+                                    foreach (var product in db.GetProduct())
                                     {
-                                        if (prod.Discontinued == true)
+                                        if (product.Discontinued == true)
                                         {
                                             Console.ForegroundColor = ConsoleColor.Red;
                                         }
-                                        Console.Write(prod.ToString() + "\n");
+                                        Console.WriteLine(product.ProductName);
+
                                     }
                                     Console.ForegroundColor = ConsoleColor.White;
                                 }
@@ -169,14 +170,6 @@ namespace NorthwindConsole
                                         Console.Write(
                                             $"Id: {prod.ProductId} Name: {prod.ProductName} Discont: {prod.Discontinued}\n");
                                     }
-                                }
-                            else if (DisplayChoice == "5"){
-                                    Console.WriteLine("Show Product with Id: ");
-                                    Int32.TryParse(Console.ReadLine(), out int id);
-
-                                    var showProd = db.GetProductById(id);
-
-                                    Console.Write($"{showProd.ToString()}\n");
                                 }
                             else{
                                 logger.Warn("No display under choice");
@@ -199,7 +192,7 @@ namespace NorthwindConsole
                             System.Console.WriteLine("Process Completed Successfully");
                         }
                         else if (choice == "5"){
-                                Console.WriteLine("Enter Prod Id to Delete");
+                                Console.WriteLine("Enter Product ID :");
                                 Int32.TryParse(Console.ReadLine(), out int id);
 
                                 var prod = db.GetProductById(id);
@@ -269,9 +262,8 @@ namespace NorthwindConsole
                         {
                             Console.WriteLine("1) Display All Categories showing Category Name");
                                 Console.WriteLine("2) Display All Categories showing All Fields");
-                                Console.WriteLine("3) Display a Specific Category");
-                                Console.WriteLine("4) Display Categories + Related Product data");
-                                Console.WriteLine("5) Display Product Data for Category Id");
+                                Console.WriteLine("3) Display Categories + Related Product data");
+                                Console.WriteLine("4) Display Product Data for Category Id");
                             string DisplayChoice = Console.ReadLine();
 
                             if (DisplayChoice == "1"){
@@ -287,20 +279,13 @@ namespace NorthwindConsole
                                             $"Id: {cat.CategoryId} Name: {cat.CategoryName} Desc: {cat.Description}\n");
                                     }
                             }
-                            else if (DisplayChoice == "3"){
-                                System.Console.Write("Category ID: ");
-                                int id = Console.Read();
-                                var showCategory = db.GetCategoryById(id);
-
-                                Console.WriteLine($"{showCategory.ToString()}");
-                            }
-                            else if (DisplayChoice == "4")
+                            else if (DisplayChoice == "3")
                                 {
                                     db.GetOutputCategoryProductData();
                                 }
-                                else if (DisplayChoice == "5")
+                                else if (DisplayChoice == "4")
                                 {
-                                    Console.WriteLine("Product Data for Cat Id of: ");
+                                    Console.WriteLine("Category Id: ");
                                     Int32.TryParse(Console.ReadLine(), out int id);
 
                                     db.GetCategoryProductNameByCatId(id);
@@ -327,8 +312,8 @@ namespace NorthwindConsole
                             System.Console.WriteLine("Process Completed Successfully");
                         }
                         else if (choice == "5"){
-                            System.Console.Write("Category Id to Delete: ");
-                            int id = Console.Read();
+                            System.Console.Write("Category Id: ");
+                            Int32.TryParse(Console.ReadLine(), out int id);
 
                             var category = db.GetCategoryById(id);
                             db.DeleteCategory(category);

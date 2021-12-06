@@ -112,13 +112,7 @@ namespace NorthwindConsole.Model
             foreach (var cat in cats)
             {
 
-                Console.WriteLine($"Cat Id: {cat.CategoryId} Cat Name: {cat.CategoryName} Cat Desc: {cat.Description}");
-
-                foreach (var prod in cat.Products)
-                {
-                    Console.WriteLine($"Product Data");
-                    Console.Write(prod.ToString() + "\n");
-                }
+                Console.WriteLine($"Id: {cat.CategoryId} Name: {cat.CategoryName} Description: {cat.Description}");
 
             }
         }
