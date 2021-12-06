@@ -30,7 +30,23 @@ namespace NorthwindConsole.Model
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
 
+          public void EditProduct(Products prod)
+        {
+            Products.Update(prod);
+            SaveChanges();
+        }
 
+        public Products GetProductById(int prodId)
+        {
+            var prod = new Products() {ProductId = prodId};
+            return prod;
+        }
+
+        public List<Products> GetProductListById(Products prod)
+        {
+            var list = new List<Products>(Products.Where(p => p.ProductId == prod.ProductId));
+            return list;
+        }
         public void AddNewProduct(Products prod)
         {
             Products.Add(prod);

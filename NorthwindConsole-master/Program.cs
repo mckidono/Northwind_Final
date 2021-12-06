@@ -79,6 +79,21 @@ namespace NorthwindConsole
                         }
                         else if (choice == "2")
                         {
+                            System.Console.Write("Enter Product ID: ");
+                            int productID = Console.Read();
+
+                            System.Console.Write("Enter New Name: ");
+                            string newName = Console.ReadLine();
+
+                            Products findProduct = db.GetProductById(productID);
+
+                            findProduct.ToString();
+                            findProduct.ProductName=newName;
+
+                            db.EditProduct(findProduct);
+
+                            Products output = db.GetProductById(productID);
+                            output.ToString();
                         }
                         else if (choice == "3")
                         {
